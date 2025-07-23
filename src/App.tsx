@@ -6,12 +6,9 @@ function App() {
     const [leaveTime, setLeaveTime] = useState<string>('');
     const [remainingTime, setRemainingTime] = useState<string>('');
 
-    // setInterval의 ID를 저장하기 위한 ref 생성
-    // useRef는 리렌더링을 유발하지 않으면서 값을 유지할 수 있습니다.
     const intervalRef = useRef<number | null>(null);
 
     useEffect(() => {
-        // leaveTime이 없으면 아무것도 하지 않음
         if (!leaveTime) {
             setRemainingTime('');
             return;
@@ -32,7 +29,6 @@ function App() {
 
             if (diff <= 0) {
                 setRemainingTime('🎉 퇴근 시간입니다! 🎉');
-                // 카운트다운이 끝나면 인터벌 정리
                 if (intervalRef.current) {
                     clearInterval(intervalRef.current);
                 }
@@ -57,8 +53,6 @@ function App() {
     }, [leaveTime]);
 
     const handleCalculate = () => {
-        // --- 핵심 수정 사항 ---
-        // 새로운 계산을 시작하기 전에 기존에 실행 중이던 인터벌을 즉시 중지합니다.
         if (intervalRef.current) {
             clearInterval(intervalRef.current);
         }
